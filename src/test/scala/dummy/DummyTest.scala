@@ -1,7 +1,7 @@
 package dummy
 
 import scala.collection.JavaConverters._
-import org.scalatest._
+import org.scalatest._, org.scalatest.OptionValues._
 import org.slf4j.LoggerFactory
 import org.kie.api._
 
@@ -21,6 +21,8 @@ class DummyTest extends FlatSpec with Matchers {
       messages.toList shouldBe List("Hello world")
       val strings = ksession.getObjects().asScala.collect { case s:String => s }
       strings.toList shouldBe List("hello world")
+      val  doubles = ksession.getObjects().asScala.collect { case d:Double => d }
+      doubles.headOption.value shouldBe 5150
     } finally {
       ksession.dispose()
     }

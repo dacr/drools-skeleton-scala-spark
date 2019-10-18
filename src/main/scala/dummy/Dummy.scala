@@ -21,6 +21,9 @@ object Dummy {
       assert(messages.toList == List("Hello world"))
       val strings = ksession.getObjects().asScala.collect { case s:String => s }
       assert(strings.toList == List("hello world"))
+      val  doubles = ksession.getObjects().asScala.collect { case d:Double => d }
+      assert(doubles.headOption == Some(5150d))
+
     } finally {
       ksession.dispose()
     }

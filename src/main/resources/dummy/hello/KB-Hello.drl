@@ -19,3 +19,7 @@ end
 rule "init" when then
   insert(gate.hello())
 end
+
+rule "init2" when then
+  insert(gate.someSparkCompute())
+end
