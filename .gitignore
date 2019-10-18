@@ -1,0 +1,17 @@
+*.jar
+*.class
+dist/*
+target/
+*.pscala
+*~
+.classpath
+.project
+.cache
+*.log
+.settings
+nohup.out
+/bin/
+.cache-main
+.cache-tests
+.DS_Store
+.idea
