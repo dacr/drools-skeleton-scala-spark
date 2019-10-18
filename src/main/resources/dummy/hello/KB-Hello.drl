@@ -6,6 +6,7 @@ import dummy.HelloResponse
 dialect "mvel"
 
 global org.slf4j.Logger logger
+global dummy.SparkGate gate
 
 rule "Hello"
 when
@@ -13,4 +14,8 @@ when
 then
   logger.info("Hello rule fired up")
   insert(new HelloResponse("Hello "+$msg))
+end
+
+rule "init" when then
+  insert(gate.hello())
 end

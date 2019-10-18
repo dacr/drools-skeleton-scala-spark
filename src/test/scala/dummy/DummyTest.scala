@@ -1,6 +1,6 @@
 package dummy
 
-import scala.jdk.CollectionConverters._
+import scala.collection.JavaConverters._
 import org.scalatest._
 import org.slf4j.LoggerFactory
 import org.kie.api._
@@ -14,10 +14,13 @@ class DummyTest extends FlatSpec with Matchers {
     val ksession = kbase.newKieSession
     try {
       ksession.setGlobal("logger", LoggerFactory.getLogger("HelloKB"))
+      ksession.setGlobal("gate", SparkGate())
       ksession.insert(Hello("world"))
       ksession.fireAllRules()
       val messages = ksession.getObjects().asScala.collect { case HelloResponse(msg) => msg }
       messages.toList shouldBe List("Hello world")
+      val strings = ksession.getObjects().asScala.collect { case s:String => s }
+      strings.toList shouldBe List("hello world")
     } finally {
       ksession.dispose()
     }

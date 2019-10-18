@@ -2,7 +2,7 @@ package dummy
 
 import org.kie.api._
 import org.slf4j.LoggerFactory
-import scala.jdk.CollectionConverters._
+import scala.collection.JavaConverters._
 
 object Dummy {
   val logger = LoggerFactory.getLogger(Dummy.getClass())
@@ -14,10 +14,13 @@ object Dummy {
     val ksession = kbase.newKieSession
     try {
       ksession.setGlobal("logger", LoggerFactory.getLogger("HelloKB"))
+      ksession.setGlobal("gate", SparkGate())
       ksession.insert(Hello("world"))
       ksession.fireAllRules()
       val messages = ksession.getObjects().asScala.collect { case HelloResponse(msg) => msg }
       assert(messages.toList == List("Hello world"))
+      val strings = ksession.getObjects().asScala.collect { case s:String => s }
+      assert(strings.toList == List("hello world"))
     } finally {
       ksession.dispose()
     }
